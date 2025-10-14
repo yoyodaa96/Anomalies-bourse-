@@ -1,1 +1,13 @@
+/* 
+IMPORT CSV ANOMALIES 
+*/
+
+import pandas as pd 
+import datetime
+import matplotlib.pyplot as plt
+
+data=pd.read_csv(r"C:\Users\daalo\Downloads\stock_market.csv")
+stock=pd.DataFrame(data)
+print(stock.head())
+
 
