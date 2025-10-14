@@ -17,10 +17,10 @@ Le dataset contient les colonnes :
 
 Chaque ligne correspond à une observation journalière d’un titre boursier.
 
----
+Utilisation de PYTHON pour l'ETL avec les librairies pandas, seaborn, matplotlib
 
 ## ⚙️ Méthodologie
-1. Nettoyage et préparation des données  
+1. Nettoyage et préparation des données 
 2. Calcul du rendement journalier par ticker (`pct_change()`)  
 3. Calcul du **z-score global** sur les rendements  
 4. Détection des anomalies (|z-score| > 3)  
