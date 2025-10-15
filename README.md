@@ -4,89 +4,34 @@
 
 Utilisation de python sur VS CODE pour analyser les anomalies de prix et de volume sur la bourse.
 
-🎯 Objectif de départ
+🎯 Objectif du projet
 
-Détecter et analyser des anomalies de marché (jours “inhabituels”) sur plusieurs actions à partir d’un historique boursier, puis interpréter ces anomalies en croisant prix et volume.
+L’objectif de ce projet était de détecter et d’analyser des anomalies de marché à partir de données boursières historiques. En d’autres termes, identifier les jours où une action présente un comportement inhabituel, que ce soit par une variation de prix extrême ou un volume d’échanges anormal.
 
-🧩 Données utilisées
+Les données utilisées contiennent les prix quotidiens de plusieurs entreprises (AAPL, MSFT, TSLA, GOOG, NFLX…), avec les colonnes classiques de marché : date, ticker, adj close, volume, etc.
 
-Colonnes : date, ticker, open, high, low, close, adj close, volume.
+🔍 Méthodologie
 
-Plusieurs tickers (AAPL, MSFT, TSLA, GOOG, NFLX, …), observations journalières.
+L’analyse a débuté par une phase de préparation des données, incluant la mise au bon format des dates, le tri chronologique et la vérification des types. Le prix ajusté (Adj Close) a été choisi comme référence, car il tient compte des splits et dividendes, rendant les comparaisons dans le temps plus fiables.
 
-🔄 Démarche suivie (étape par étape)
+Ensuite, nous avons calculé le rendement journalier de chaque titre, c’est-à-dire la variation de son prix par rapport au jour précédent. Ces rendements ont été standardisés à l’aide du z-score, afin d’identifier les jours où la performance s’écarte significativement de la moyenne. Les jours où la valeur absolue du z-score dépassait un certain seuil (|z| > 3) ont été considérés comme des anomalies de prix.
 
-Préparation des données
+La même approche a ensuite été appliquée au volume d’échanges. Cette étape a permis de repérer les jours où l’activité de marché était exceptionnellement forte ou faible, indépendamment de l’évolution du prix.
 
-Conversion des dates, tri chronologique par ticker, contrôle des types.
+Enfin, nous avons comparé les anomalies de prix et celles de volume pour déterminer si les variations extrêmes de cours étaient confirmées par un volume anormal, signe d’un mouvement réellement soutenu par le marché.
 
-Choix de Adj Close pour des prix comparables dans le temps (ajusté des splits/dividendes).
+📊 Résultats et interprétation
 
-Calcul du rendement journalier
+Les résultats obtenus montrent des comportements cohérents avec la réputation de chaque titre. Microsoft se démarque comme l’action la plus stable, avec très peu d’anomalies de prix (0,4 %). Apple, Google et Netflix présentent des variations modérées mais une activité de volume plus élevée, signe d’un marché souvent animé sans pour autant créer de fortes fluctuations de prix.
 
-Variation quotidienne du prix par ticker (rendement relatif jour J vs J-1).
+À l’inverse, Tesla affiche la plus forte proportion d’anomalies de prix (2 %), illustrant sa nature très volatile. Cependant, toutes ces anomalies ne sont pas accompagnées d’un volume exceptionnel, ce qui traduit une volatilité parfois spéculative.
 
-Acceptation des NaN en 1ʳᵉ ligne de chaque série (pas de veille) ou remplacement par 0 selon le besoin.
+Le rapprochement entre prix et volume révèle que pour Apple, Microsoft et Netflix, 100 % des anomalies de prix sont confirmées par un volume anormal. Cela indique des mouvements de marché solides, soutenus par une réelle intensité d’échanges. En revanche, Google et Tesla affichent une confirmation partielle (50 % et 40 %), traduisant des variations de prix plus indépendantes du comportement général des investisseurs.
 
-Standardisation (z-score) des rendements
+🧠 Conclusion
 
-Mise sur une échelle commune pour repérer les valeurs extrêmes par rapport au comportement habituel.
+Cette étude montre qu’une approche statistique simple permet déjà d’obtenir une lecture fine du comportement des titres boursiers. L’analyse croisée entre rendement et volume permet de distinguer les vraies anomalies de marché — c’est-à-dire celles qui reflètent une forte réaction des investisseurs — des fluctuations isolées ou du bruit.
 
-Détection d’anomalies de prix
+En résumé, les titres comme Microsoft ou Apple se révèlent stables et cohérents, tandis que Tesla illustre la volatilité et la réactivité propres aux valeurs spéculatives.
 
-Marquage des jours où le z-score (en absolu) dépasse un seuil (ex. |z| > 3).
-
-Visualisation par ticker : courbe de prix + points rouges sur les jours anormaux.
-
-Analyse du volume
-
-Standardisation du volume (z-score) et détection des pics d’activité.
-
-Visualisation dédiée (volume + anomalies volume) et comparaison avec les anomalies de prix.
-
-Indicateurs de synthèse
-
-Taux d’anomalies de prix par ticker (part de jours extrêmes).
-
-Taux d’anomalies de volume par ticker.
-
-Rapprochement : pourcentage d’anomalies de prix confirmées par un volume anormal le même jour (mesure de robustesse).
-
-Zooms et validation
-
-Zooms temporels autour de certains jours extrêmes pour valider visuellement la cohérence (pic/chute + activité).
-
-📊 Résultats clés (exemple résumé sur ton jeu)
-
-Taux d’anomalies prix : MSFT très faible (~0,4 %), AAPL modéré (~1,2 %), TSLA le plus élevé (~2 %).
-
-Taux d’anomalies volume : AAPL et GOOG/NFLX plus souvent en pics d’activité que MSFT, TSLA plus équilibré.
-
-Confirmation prix↔volume :
-
-AAPL / MSFT / NFLX : 100 % des anomalies de prix accompagnées d’un volume anormal → mouvements crédibles.
-
-GOOG : ~50 % ; TSLA : ~40 % → une partie des mouvements de prix sans pic de volume (volatilité intrinsèque/spéculative).
-
-🧠 Interprétation
-
-Titres stables (ex. MSFT) : peu d’anomalies prix, même si quelques jours de volume inhabituel → résilience.
-
-Titres réactifs (ex. TSLA) : davantage d’anomalies prix, pas toujours confirmées par le volume → volatilité propre et sensibilité aux nouvelles.
-
-Cas intermédiaires (AAPL/GOOG/NFLX) : profils mixtes ; AAPL montre beaucoup de pics de volume mais peu d’extrêmes de prix → activité élevée mais maîtrisée.
-
-⚠️ Limites & pistes d’amélioration
-
-Le seuil |z| > 3 est simple ; on peut l’ajuster ou le rendre adaptatif.
-
-Ajouter des méthodes d’anomalies ML (Isolation Forest, LOF, DBSCAN) pour détecter des patterns non-linéaires.
-
-Croiser avec des événements (news, résultats, macro) pour expliquer les jours extrêmes.
-
-Déployer un dashboard (Power BI/Plotly) avec alertes sur anomalies prix+volume.
-
-✅ Conclusion
-
-L’approche révèle rapidement des jours atypiques et distingue les mouvements crédibles (prix et volume anormaux) des signaux bruités (prix extrême sans volume).
-Elle offre une base solide pour un système d’alerte et une analyse de risque par ticker, tout en restant lisible et reproductible pour un portfolio.
+Ce travail pourrait être enrichi par des approches de machine learning ou par l’intégration de données externes (actualités, indicateurs macroéconomiques) pour aller vers une détection d’anomalies plus intelligente et prédictive.
