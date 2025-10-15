@@ -21,6 +21,9 @@ La même approche a ensuite été appliquée au volume d’échanges. Cette éta
 Enfin, nous avons comparé les anomalies de prix et celles de volume pour déterminer si les variations extrêmes de cours étaient confirmées par un volume anormal, signe d’un mouvement réellement soutenu par le marché.
 
 📊 Résultats et interprétation
+<img width="989" height="490" alt="image" src="https://github.com/user-attachments/assets/066e852b-f0e2-4f3f-bd43-f15f240995da" />
+
+<img width="989" height="390" alt="image" src="https://github.com/user-attachments/assets/36b134dd-b957-4d1a-abe2-4eeda79fdec4" />
 
 Les résultats obtenus montrent des comportements cohérents avec la réputation de chaque titre. Microsoft se démarque comme l’action la plus stable, avec très peu d’anomalies de prix (0,4 %). Apple, Google et Netflix présentent des variations modérées mais une activité de volume plus élevée, signe d’un marché souvent animé sans pour autant créer de fortes fluctuations de prix.
 
